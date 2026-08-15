@@ -1,9 +1,14 @@
 services:
   - type: web
     name: kle-fest-web
-    runtime: docker
-    plan: free
-    dockerfilePath: ./Dockerfile
+    env: static
+    staticPublishPath: build/web
+    buildCommand: |
+      flutter pub get
+      flutter build web \
+        --release \
+        --dart-define=SUPABASE_URL=$SUPABASE_URL \
+        --dart-define=SUPABASE_KEY=$SUPABASE_KEY
     envVars:
       - key: SUPABASE_URL
         sync: false

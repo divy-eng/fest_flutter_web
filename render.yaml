@@ -1,11 +1,8 @@
 services:
   - type: web
     name: kle-fest-web
-    runtime: docker
-    plan: free
-    dockerfilePath: ./Dockerfile
-    envVars:
-      - key: SUPABASE_URL
-        sync: false
-      - key: SUPABASE_KEY
-        sync: false
+    env: static
+    staticPublishPath: build/web
+    routes:
+      - path: /*
+        destination: /index.html

@@ -269,7 +269,9 @@ class _CollegeFestDashboardState extends State<CollegeFestDashboard> {
             scrollDirection: Axis.horizontal,
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
             child: Row(
-              children: _navItems.map((String item) => _buildNavLink(item)).toList(),
+              children: _navItems
+                  .map((String item) => _buildNavLink(item))
+                  .toList(),
             ),
           ),
         ),
@@ -396,10 +398,8 @@ class _CollegeFestDashboardState extends State<CollegeFestDashboard> {
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
         const double fixedAllowance = 310.0;
-        final double galleryHeight = (constraints.maxHeight - fixedAllowance).clamp(
-          140.0,
-          600.0,
-        );
+        final double galleryHeight = (constraints.maxHeight - fixedAllowance)
+            .clamp(140.0, 600.0);
         return SingleChildScrollView(
           child: Center(
             child: ConstrainedBox(
@@ -1047,7 +1047,21 @@ class _CollegeFestDashboardState extends State<CollegeFestDashboard> {
       }),
     );
 
-    return response.statusCode == 201;
+    if (response.statusCode != 201) {
+      final String errorMsg =
+          'Registration failed (${response.statusCode}): ${response.body}';
+      print('❌ $errorMsg');
+      if (!mounted) return false;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error: ${response.statusCode} - ${response.body}'),
+          duration: const Duration(seconds: 5),
+        ),
+      );
+      return false;
+    }
+
+    return true;
   }
 
   Future<void> _showVoucherEmailDialog(FestEvent event) async {
@@ -1173,7 +1187,10 @@ class _CollegeFestDashboardState extends State<CollegeFestDashboard> {
     );
     final http.Response response = await http.get(
       uri,
-      headers: <String, String>{'apikey': supabaseKey, 'Authorization': 'Bearer $supabaseKey'},
+      headers: <String, String>{
+        'apikey': supabaseKey,
+        'Authorization': 'Bearer $supabaseKey',
+      },
     );
 
     if (response.statusCode != 200) return null;
@@ -1292,7 +1309,10 @@ class _CollegeFestDashboardState extends State<CollegeFestDashboard> {
       final String filename =
           'voucher_${data.eventTitle.replaceAll(RegExp(r'[^A-Za-z0-9_]'), '_')}_${DateTime.now().millisecondsSinceEpoch}.pdf';
       if (!mounted) return;
-      await Printing.layoutPdf(onLayout: (PdfPageFormat format) => bytes, name: filename);
+      await Printing.layoutPdf(
+        onLayout: (PdfPageFormat format) => bytes,
+        name: filename,
+      );
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -1352,8 +1372,12 @@ class EventDetailPage extends StatelessWidget {
                     (MediaQuery.sizeOf(context).width *
                             MediaQuery.devicePixelRatioOf(context))
                         .round(),
-                errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) =>
-                    const ColoredBox(color: Colors.grey),
+                errorBuilder:
+                    (
+                      BuildContext context,
+                      Object error,
+                      StackTrace? stackTrace,
+                    ) => const ColoredBox(color: Colors.grey),
               ),
             ),
             const SizedBox(height: 16),

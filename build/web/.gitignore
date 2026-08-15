@@ -1,0 +1,35 @@
+# Ignore common OS/editor files and large intermediate artifacts
+# Keep all Flutter web build output tracked for hosting
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.log
+.env
+node_modules/
+.cache/
+*.key
+*.pem
+*.map# Ignore everything by default
+/*
+
+# Keep the important build outputs for hosting
+!/index.html
+!/main.dart.js
+!/flutter.js
+!/flutter_bootstrap.js
+!/version.json
+!/favicon.ico
+!/manifest.json
+!/flutter_service_worker.js
+!/assets
+!/assets/**
+!/canvaskit
+!/canvaskit/**
+
+# Keep the .gitignore itself
+!/.gitignore
+
+# Optional: ignore local git metadata if nested
+.git
+ 

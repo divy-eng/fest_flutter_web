@@ -1,0 +1,17 @@
+﻿# This file configures the analyzer, which statically analyzes Dart code to
+# check for errors, warnings, and lints.
+include: package:flutter_lints/flutter.yaml
+
+linter:
+  rules:
+    avoid_print: true
+    prefer_single_quotes: true
+    always_declare_return_types: true
+    always_specify_types: true
+    prefer_const_constructors: true
+    prefer_final_fields: true
+    sort_pub_dependencies: true
+
+analyzer:
+  exclude:
+    - test/**

@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: kle-fest-web
+    env: static
+    staticPublishPath: build/web
+    buildCommand: |
+      flutter pub get
+      flutter build web \
+        --release \
+        --dart-define=SUPABASE_URL=$SUPABASE_URL \
+        --dart-define=SUPABASE_ANON_KEY=$SUPABASE_ANON_KEY \
+        --dart-define=SUPABASE_KEY=$SUPABASE_KEY
+    envVars:
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_ANON_KEY
+        sync: false
+      - key: SUPABASE_KEY
+        sync: false
